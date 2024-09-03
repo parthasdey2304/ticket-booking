@@ -20,14 +20,24 @@ const App = () => {
       selectedTickets: 'You selected {tickets} tickets. The total cost is ₹{totalCost}. Would you like to confirm your booking? (yes/no)',
       confirmBooking: 'Please respond with "yes" or "no" to confirm your booking.',
       bookingCanceled: 'Booking canceled. If you would like to start again, please enter the number of tickets you want to book.',
-      paymentOptions: 'Please choose your payment method for ₹{totalCost}:',
-      paymentSuccess: 'Payment Successful using {method}. Thank you!',
+      paymentOptions: 'Please click the button below to pay ₹{totalCost} using Razorpay:',
+      paymentSuccess: 'Payment Successful using Razorpay. Thank you!',
       selectState: 'You have selected {state}. Now, how many tickets would you like to purchase? (Enter a number between 1 and 100)',
     },
   };
 
   useEffect(() => {
     setTimeout(() => addMessage('bot', getTranslation('greeting')), 500);
+    
+    // Load Razorpay script
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   useEffect(() => {
@@ -64,7 +74,7 @@ const App = () => {
         const response = message.toLowerCase();
         if (response === 'yes') {
           addMessage('bot', getTranslation('paymentOptions').replace('{totalCost}', selectedTickets * ticketPrice));
-          showPaymentOptions();
+          showRazorpayButton();
           setBookingStep(2);
         } else if (response === 'no') {
           addMessage('bot', getTranslation('bookingCanceled'));
@@ -76,25 +86,39 @@ const App = () => {
     }, 1500);
   };
 
-  const showPaymentOptions = () => {
-    const paymentOptions = (
-      <div className="flex space-x-2">
-        <button onClick={() => processPayment('UPI')} className="bg-blue-500 text-white px-3 py-1 rounded">UPI</button>
-        <button onClick={() => processPayment('Debit Card')} className="bg-blue-500 text-white px-3 py-1 rounded">Debit Card</button>
-        <button onClick={() => processPayment('Credit Card')} className="bg-blue-500 text-white px-3 py-1 rounded">Credit Card</button>
-        <button onClick={() => processPayment('Others')} className="bg-blue-500 text-white px-3 py-1 rounded">Others</button>
-      </div>
+  const showRazorpayButton = () => {
+    const razorpayButton = (
+      <button onClick={handleRazorpayPayment} className="bg-blue-500 text-white px-4 py-2 rounded">
+        Pay with Razorpay
+      </button>
     );
-    addMessage('bot', paymentOptions);
+    addMessage('bot', razorpayButton);
   };
 
-  const processPayment = (method) => {
-    setShowTypingIndicator(true);
-    setTimeout(() => {
-      setShowTypingIndicator(false);
-      addMessage('bot', getTranslation('paymentSuccess').replace('{method}', method));
-      setBookingStep(0);
-    }, 1500);
+  const handleRazorpayPayment = () => {
+    if (window.Razorpay) {
+      const options = {
+        key: "rzp_test_vv1FCZvuDRF6lQ",
+        amount: selectedTickets * ticketPrice * 100,
+        currency: "INR",
+        name: "Museum Ticket Booking",
+        description: "Museum Ticket Purchase",
+        handler: function (response) {
+          const paymentId = response.razorpay_payment_id;
+          console.log("Payment ID", paymentId);
+          addMessage('bot', getTranslation('paymentSuccess'));
+          setBookingStep(0);
+        },
+        theme: {
+          color: "#07a291db",
+        },
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } else {
+      console.error("Razorpay SDK is not loaded");
+      addMessage('bot', "Sorry, there was an error loading the payment system. Please try again later.");
+    }
   };
 
   const getTranslation = (key) => {
