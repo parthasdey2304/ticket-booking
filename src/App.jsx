@@ -126,7 +126,7 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center bg-cover bg-center" style={{backgroundImage: "url('museum.jpg')"}}>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center bg-cover bg-center p-2" style={{backgroundImage: "url('museum.jpg')"}}>
       <div className="w-full max-w-md bg-white bg-opacity-80 p-6 rounded-3xl shadow-lg">
         <header className="bg-blue-500 text-white p-4 text-center rounded-lg mb-4">
           <h1 className="text-2xl font-bold">Museum Ticket Booking System (₹)</h1>
