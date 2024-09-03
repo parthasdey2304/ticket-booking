@@ -14,7 +14,7 @@ const App = () => {
 
   const translations = {
     en: {
-      greeting: 'Hello! Welcome to the Museum Ticket Booking System. Please select your state from the dropdown.',
+      greeting: 'Hello! Welcome to the Museum Ticket Booking System. Please select your state from the dropdown and then say Hii',
       askTickets: 'How many tickets would you like to purchase? (Enter a number between 1 and 100)',
       invalidTickets: 'Please enter a valid number of tickets between 1 and 100.',
       selectedTickets: 'You selected {tickets} tickets. The total cost is ₹{totalCost}. Would you like to confirm your booking? (yes/no)',
