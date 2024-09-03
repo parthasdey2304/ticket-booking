@@ -8,6 +8,7 @@ const App = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [selectedState, setSelectedState] = useState('');
   const [showTypingIndicator, setShowTypingIndicator] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const messagesEndRef = useRef(null);
 
   const ticketPrice = 250;
@@ -29,7 +30,6 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => addMessage('bot', getTranslation('greeting')), 500);
     
-    // Load Razorpay script
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
@@ -125,49 +125,60 @@ const App = () => {
     return translations[selectedLanguage][key];
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center bg-cover bg-center p-2" style={{backgroundImage: "url('museum.jpg')"}}>
-      <div className="w-full max-w-md bg-white bg-opacity-80 p-6 rounded-3xl shadow-lg">
-        <header className="bg-blue-500 text-white p-4 text-center rounded-lg mb-4">
+    <div className={`min-h-screen flex items-center justify-center bg-cover bg-center p-2 transition-colors duration-300 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`} style={{backgroundImage: "url('museum.jpg')"}}>
+      <button
+        onClick={toggleDarkMode}
+        className={`absolute top-4 right-4 p-2 rounded-full transition-colors duration-300 ${darkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-yellow-400'}`}
+      >
+        {darkMode ? '☀️' : '🌙'}
+      </button>
+      <div className={`w-full max-w-md p-6 rounded-3xl shadow-lg transition-colors duration-300 ${darkMode ? 'bg-gray-800 bg-opacity-80' : 'bg-white bg-opacity-80'}`}>
+        <header className={`${darkMode ? 'bg-blue-700' : 'bg-blue-500'} text-white p-4 text-center rounded-lg mb-4 transition-colors duration-300`}>
           <h1 className="text-2xl font-bold">Museum Ticket Booking System (₹)</h1>
         </header>
         <select
-          className="w-full mb-4 p-2 border rounded"
+          className={`w-full mb-4 p-2 border rounded transition-colors duration-300 ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
           onChange={(e) => setSelectedState(e.target.value)}
           value={selectedState}
         >
             <option value="" disabled>Select your state</option>
-            <option value="Andhra Pradesh">Andhra Pradesh</option>
-            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-            <option value="Assam">Assam</option>
-            <option value="Bihar">Bihar</option>
-            <option value="Chhattisgarh">Chhattisgarh</option>
-            <option value="Goa">Goa</option>
-            <option value="Gujarat">Gujarat</option>
-            <option value="Haryana">Haryana</option>
-            <option value="Himachal Pradesh">Himachal Pradesh</option>
-            <option value="Jharkhand">Jharkhand</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Kerala">Kerala</option>
-            <option value="Madhya Pradesh">Madhya Pradesh</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Manipur">Manipur</option>
-            <option value="Meghalaya">Meghalaya</option>
-            <option value="Mizoram">Mizoram</option>
-            <option value="Nagaland">Nagaland</option>
-            <option value="Odisha">Odisha</option>
-            <option value="Punjab">Punjab</option>
-            <option value="Rajasthan">Rajasthan</option>
-            <option value="Sikkim">Sikkim</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Telangana">Telangana</option>
-            <option value="Tripura">Tripura</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
-            <option value="Uttarakhand">Uttarakhand</option>
-            <option value="West Bengal">West Bengal</option>
-        </select>
+            <option value="" disabled>Select your state</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+        </select>
         <select
-          className="w-full mb-4 p-2 border rounded"
+          className={`w-full mb-4 p-2 border rounded transition-colors duration-300 ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
           onChange={(e) => setSelectedLanguage(e.target.value)}
           value={selectedLanguage}
         >
@@ -175,19 +186,19 @@ const App = () => {
           <option value="hi">Hindi</option>
           <option value="bn">Bengali</option>
         </select>
-        <div className="bg-gray-200 p-4 rounded-lg h-80 overflow-y-auto mb-4">
+        <div className={`p-4 rounded-lg h-80 overflow-y-auto mb-4 transition-colors duration-300 ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
           {messages.map((msg, index) => (
             <div key={index} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
-              <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>
+              <span className={`inline-block p-2 rounded-lg transition-colors duration-300 ${msg.sender === 'user' ? 'bg-blue-500 text-white' : (darkMode ? 'bg-gray-600 text-white' : 'bg-gray-300 text-gray-900')}`}>
                 {msg.message}
               </span>
             </div>
           ))}
           {showTypingIndicator && (
             <div className="flex space-x-1">
-              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.4s'}}></div>
+              <div className={`w-2 h-2 rounded-full animate-bounce transition-colors duration-300 ${darkMode ? 'bg-gray-400' : 'bg-gray-500'}`}></div>
+              <div className={`w-2 h-2 rounded-full animate-bounce transition-colors duration-300 ${darkMode ? 'bg-gray-400' : 'bg-gray-500'}`} style={{animationDelay: '0.2s'}}></div>
+              <div className={`w-2 h-2 rounded-full animate-bounce transition-colors duration-300 ${darkMode ? 'bg-gray-400' : 'bg-gray-500'}`} style={{animationDelay: '0.4s'}}></div>
             </div>
           )}
           <div ref={messagesEndRef} />
@@ -195,14 +206,14 @@ const App = () => {
         <div className="flex">
           <input
             type="text"
-            className="flex-grow p-2 border rounded-l"
+            className={`flex-grow p-2 border rounded-l transition-colors duration-300 ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
             placeholder="Type your message..."
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
           />
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-r"
+            className={`${darkMode ? 'bg-blue-700' : 'bg-blue-500'} text-white px-4 py-2 rounded-r transition-colors duration-300`}
             onClick={handleSendMessage}
           >
             Send
