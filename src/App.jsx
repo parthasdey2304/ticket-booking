@@ -98,7 +98,7 @@ const App = () => {
   const handleRazorpayPayment = () => {
     if (window.Razorpay) {
       const options = {
-        key: "rzp_test_vv1FCZvuDRF6lQ",
+        key: "rzp_test_HHt6QLOgnovt6S",
         amount: selectedTickets * ticketPrice * 100,
         currency: "INR",
         name: "Museum Ticket Booking",
