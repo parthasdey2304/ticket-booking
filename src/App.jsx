@@ -25,6 +25,15 @@ const App = () => {
       paymentSuccess: 'Payment Successful using Razorpay. Thank you!',
       selectState: 'You have selected {state}. Now, how many tickets would you like to purchase? (Enter a number between 1 and 100)',
     },
+    hi: {
+      greeting: 'नमस्ते! म्यूज़ियम टिकट बुकिंग सिस्टम में आपका स्वागत है। कृपया ड्रॉपडाउन से अपना राज्य चुनें और फिर हाय बोलें',
+      askTickets: 'आप कितने टिकट खरीदना चाहेंगे? (1 और 100 के बीच एक संख्या दर्ज करें)',
+      invalidTickets: 'कृपया 1 और 100 के बीच मान्य टिकट की संख्या दर्ज करें।',
+      selectedTickets: 'आपने {tickets} टिकट चुनी हैं। कुल लागत ₹{totalCost} है। क्या आप अपनी बुकिंग की पुष्टि करना चाहेंगे? (हाँ/नहीं)',
+      confirmBooking: 'कृपया अपनी बुकिंग की पुष्टि करने के लिए "हाँ" या "नहीं" के साथ प्रतिक्रिया दें।',
+      bookingCanceled: 'बुकिंग रद्द कर दी गई है। यदि आप फिर से शुरू करना चाहें, तो कृपया उन टिकटों की संख्या दर्ज करें जिन्हें आप बुक करना चाहते हैं।',
+      paymentOptions: 'कृपया नीचे दिए गए बटन पर क्लिक करें और Razorpay का उपयोग करके ₹{totalCost} भुगतान करें:',
+    }
   };
 
   useEffect(() => {
@@ -145,6 +154,7 @@ const App = () => {
           className={`w-full mb-4 p-2 border rounded transition-colors duration-300 ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`}
           onChange={(e) => setSelectedState(e.target.value)}
           value={selectedState}
+          required
         >
             <option value="" disabled>Select your state</option>
             <option value="" disabled>Select your state</option>
