@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Chatbot from './components/Chatbot';
+import backgroundImage from '../public/museum.jpg';
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -230,6 +232,7 @@ const App = () => {
           </button>
         </div>
       </div>
+      <Chatbot />
     </div>
   );
 };
